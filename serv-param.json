@@ -1,0 +1,18 @@
+[
+    {
+        "ParameterKey": "EnvironmentName",
+        "ParameterValue": "UdacityProject"
+    },
+    {
+        "ParameterKey": "AMIID",
+        "ParameterValue": "ami-0cff7528ff583bf9a" 
+    },
+    {
+        "ParameterKey": "JumpBoxSSH",
+        "ParameterValue": "jumpBox"
+    },
+    {
+        "ParameterKey": "PrivServSSH",
+        "ParameterValue": "privServ"
+    }
+]

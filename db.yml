@@ -1,0 +1,65 @@
+Description: >
+  Deploy DB for our webApp
+
+Parameters:
+  EnvironmentName:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  User:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+  Password:
+    Description: An environment name that will be prefixed to resource names
+    Type: String
+
+Resources:
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: DB Subnet
+      DBSubnetGroupName: Private
+      SubnetIds:
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PRI1-SN
+        - Fn::ImportValue: !Sub ${EnvironmentName}-PRI2-SN
+      Tags:
+        - Key: Name
+          Value: !Ref EnvironmentName
+
+  DBInstance1:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: 20
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      # DBClusterIdentifier: !Ref DBCluster
+      DBInstanceClass: db.t3.micro
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBName: db1
+      Engine: MySQL
+      MasterUsername: !Ref User
+      MasterUserPassword: !Ref Password
+      PubliclyAccessible: false
+      Tags:
+        - Key: name
+          Value: !Ref EnvironmentName
+      
+  DBInstance2:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: 20
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      # DBClusterIdentifier: !Ref DBCluster
+      DBInstanceClass: db.t3.micro
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBName: db2
+      Engine: MySQL
+      MasterUsername: !Ref User
+      MasterUserPassword: !Ref Password
+      PubliclyAccessible: false
+      Tags:
+        - Key: name
+          Value: !Ref EnvironmentName
+
+
+
